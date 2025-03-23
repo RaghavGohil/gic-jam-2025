@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://brh4eam4vjm2t"]
+
+[ext_resource type="PackedScene" uid="uid://dspq81l6p5fx0" path="res://models/tracks/normal_curved_track.fbx" id="1_xob4l"]
+
+[node name="NormalCurvedTrack" instance=ExtResource("1_xob4l")]

@@ -1,0 +1,227 @@
+[gd_scene load_steps=18 format=3 uid="uid://tqkk3fnilm6j"]
+
+[ext_resource type="PackedScene" uid="uid://diiel01barb7y" path="res://coaster.fbx" id="1_7flm2"]
+[ext_resource type="PackedScene" uid="uid://c3djgn3a0fxx0" path="res://models/tracks/normal_straight_track.fbx" id="2_1gox0"]
+[ext_resource type="Texture2D" uid="uid://d3y0bsoqb08tw" path="res://textures/grass.png" id="2_og6wh"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="2_pk533"]
+[ext_resource type="Script" path="res://scripts/track_manager.gd" id="6_csse8"]
+[ext_resource type="PackedScene" uid="uid://dspq81l6p5fx0" path="res://models/tracks/normal_curved_track.fbx" id="7_4hvjt"]
+[ext_resource type="PackedScene" uid="uid://jb6r8a4rbx8x" path="res://model_scenes/normal_track.tscn" id="7_f8tc7"]
+[ext_resource type="PackedScene" uid="uid://j7duat04er66" path="res://model_scenes/golden_track.tscn" id="7_y4crk"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_obqn7"]
+sky_top_color = Color(0.565765, 0.738521, 0.984149, 1)
+sky_horizon_color = Color(0.451769, 0.715553, 0.992505, 1)
+sky_curve = 0.15529
+ground_bottom_color = Color(0.357118, 0.749961, 1, 1)
+ground_horizon_color = Color(0.377316, 0.649674, 0.998493, 1)
+
+[sub_resource type="Sky" id="Sky_avt2k"]
+sky_material = SubResource("ProceduralSkyMaterial_obqn7")
+
+[sub_resource type="Environment" id="Environment_0xoxg"]
+background_mode = 2
+sky = SubResource("Sky_avt2k")
+ssao_horizon = 1.0
+ssil_enabled = true
+ssil_sharpness = 1.0
+glow_enabled = true
+glow_bloom = 0.15
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v8006"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3uhb5"]
+albedo_texture = ExtResource("2_og6wh")
+metallic_specular = 0.0
+heightmap_scale = -16.0
+heightmap_texture = ExtResource("2_og6wh")
+uv1_scale = Vector3(50, 50, 50)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a5f15"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_5vv8j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kb8f0"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.109804)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_edegp"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Game" type="Node"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0669879, 0.997754, 0, -0.997754, 0.0669879, 0, 0, 0)
+light_color = Color(0.88216, 0.803784, 0.79058, 1)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0xoxg")
+
+[node name="coaster" parent="." instance=ExtResource("1_7flm2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.805877, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 8.21506e-08, -2.99003e-08, -9.00006e-09, 0.243463, 0.96991, 8.69583e-08, 0.96991, -0.243463, 0, 12.2235, -12.6535)
+current = true
+script = ExtResource("2_pk533")
+pan_speed = 0.2
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(77.472, 0, 0, 0, 1, 0, 0, 0, 75.61, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 0.99996, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_v8006")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+material_override = SubResource("StandardMaterial3D_3uhb5")
+mesh = SubResource("PlaneMesh_a5f15")
+skeleton = NodePath("../..")
+
+[node name="TrackManager" type="Node3D" parent="." node_paths=PackedStringArray("cursor_mesh", "camera")]
+script = ExtResource("6_csse8")
+track_normal_straight = ExtResource("2_1gox0")
+track_normal_curved = ExtResource("7_4hvjt")
+cursor_mesh = NodePath("MeshInstance3D")
+camera = NodePath("../Camera3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TrackManager"]
+transform = Transform3D(2, 0, 0, 0, 0.188169, 0, 0, 0, 2, 0, 0, 0)
+mesh = SubResource("BoxMesh_5vv8j")
+surface_material_override/0 = SubResource("StandardMaterial3D_kb8f0")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -217.0
+offset_top = -149.0
+offset_right = 218.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="Panel" type="Panel" parent="Control/HBoxContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Control/HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Control/HBoxContainer/Panel/SubViewportContainer"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 2
+screen_space_aa = 1
+mesh_lod_threshold = 0.0
+gui_disable_input = true
+sdf_oversize = 0
+size = Vector2i(120, 120)
+render_target_clear_mode = 1
+render_target_update_mode = 4
+
+[node name="NormalTrack" parent="Control/HBoxContainer/Panel/SubViewportContainer/SubViewport" instance=ExtResource("7_f8tc7")]
+
+[node name="Panel2" type="Panel" parent="Control/HBoxContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Control/HBoxContainer/Panel2"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -31.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Control/HBoxContainer/Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Control/HBoxContainer/Panel2/SubViewportContainer"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 2
+screen_space_aa = 1
+mesh_lod_threshold = 0.0
+gui_disable_input = true
+sdf_oversize = 0
+size = Vector2i(120, 120)
+render_target_clear_mode = 1
+render_target_update_mode = 4
+
+[node name="GoldenTrack" parent="Control/HBoxContainer/Panel2/SubViewportContainer/SubViewport" instance=ExtResource("7_y4crk")]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+custom_minimum_size = Vector2(10, 50)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -256.0
+offset_right = 256.0
+offset_bottom = 128.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "PAUSE TIME COOLDOWN"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(300, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/fill = SubResource("StyleBoxFlat_edegp")
+value = 20.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 128.0
+theme_override_font_sizes/font_size = 26
+text = "Score : 200"
+horizontal_alignment = 1
+vertical_alignment = 1

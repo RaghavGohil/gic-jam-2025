@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://j7duat04er66"]
+
+[ext_resource type="PackedScene" uid="uid://ojcxqswbgi7k" path="res://models/tracks/golden_straight_track.fbx" id="1_kyovl"]
+
+[node name="GoldenTrack" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.960896, -0.13769, -0.240252, 0.266854, 0.228738, 0.936199, -0.0739503, -0.963701, 0.256536, -0.67, 1.95, 0.556)
+current = true
+near = 0.1
+far = 100.0
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Camera3D"]
+transform = Transform3D(1, 1.3411e-07, -3.35276e-08, -1.49012e-07, 1, 7.45058e-08, 4.09782e-08, -5.96046e-08, 1, -0.00615834, 0.512245, 1.04492)
+light_energy = 6.0
+light_specular = 0.0
+spot_range = 23.677
+
+[node name="golden_straight_track" parent="." instance=ExtResource("1_kyovl")]

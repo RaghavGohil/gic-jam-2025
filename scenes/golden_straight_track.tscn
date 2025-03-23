@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://o75qv3vha5pt"]
+
+[ext_resource type="PackedScene" uid="uid://ojcxqswbgi7k" path="res://models/tracks/golden_straight_track.fbx" id="1_rax48"]
+
+[node name="GoldenStraightTrack" instance=ExtResource("1_rax48")]
