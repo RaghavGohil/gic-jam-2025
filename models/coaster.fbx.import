@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://diiel01barb7y"
-path="res://.godot/imported/coaster.fbx-0b215ff028c836977e93d8bc080c651b.scn"
+path="res://.godot/imported/coaster.fbx-49a015b0c71212074fd20d60696ee895.scn"
 
 [deps]
 
-source_file="res://coaster.fbx"
-dest_files=["res://.godot/imported/coaster.fbx-0b215ff028c836977e93d8bc080c651b.scn"]
+source_file="res://models/coaster.fbx"
+dest_files=["res://.godot/imported/coaster.fbx-49a015b0c71212074fd20d60696ee895.scn"]
 
 [params]
 

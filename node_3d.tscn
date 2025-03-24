@@ -1,22 +1,25 @@
-[gd_scene load_steps=20 format=3 uid="uid://tqkk3fnilm6j"]
+[gd_scene load_steps=23 format=3 uid="uid://tqkk3fnilm6j"]
 
-[ext_resource type="PackedScene" uid="uid://diiel01barb7y" path="res://coaster.fbx" id="1_7flm2"]
+[ext_resource type="Script" path="res://coaster_spawner.gd" id="1_em4fc"]
 [ext_resource type="Texture2D" uid="uid://d3y0bsoqb08tw" path="res://textures/grass.png" id="2_og6wh"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="2_pk533"]
-[ext_resource type="PackedScene" uid="uid://cf2ajfhvcde4v" path="res://scenes/normal_straight_track.tscn" id="5_vv7c7"]
+[ext_resource type="PackedScene" uid="uid://diiel01barb7y" path="res://models/coaster.fbx" id="2_uvfj1"]
+[ext_resource type="PackedScene" uid="uid://2l1x7qtabqki" path="res://models/tracks/normal_cross_track.fbx" id="5_j21ut"]
+[ext_resource type="PackedScene" uid="uid://c3djgn3a0fxx0" path="res://models/tracks/normal_straight_track.fbx" id="5_nx27v"]
 [ext_resource type="PackedScene" uid="uid://brh4eam4vjm2t" path="res://scenes/normal_curved_track.tscn" id="6_3ipdo"]
 [ext_resource type="Script" path="res://scripts/track_manager.gd" id="6_csse8"]
 [ext_resource type="PackedScene" uid="uid://o75qv3vha5pt" path="res://scenes/golden_straight_track.tscn" id="7_6h50n"]
 [ext_resource type="PackedScene" uid="uid://jb6r8a4rbx8x" path="res://model_scenes/normal_track.tscn" id="7_f8tc7"]
 [ext_resource type="PackedScene" uid="uid://j7duat04er66" path="res://model_scenes/golden_track.tscn" id="7_y4crk"]
 [ext_resource type="PackedScene" uid="uid://t3vrfreli3s5" path="res://scenes/golden_curved_track.tscn" id="8_b07y4"]
+[ext_resource type="PackedScene" uid="uid://bqflyyvcskqrf" path="res://models/tracks/golden_cross_track.fbx" id="10_yqw4j"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_obqn7"]
-sky_top_color = Color(0.565765, 0.738521, 0.984149, 1)
-sky_horizon_color = Color(0.451769, 0.715553, 0.992505, 1)
+sky_top_color = Color(0.486518, 0.672223, 0.867064, 1)
+sky_horizon_color = Color(0.486275, 0.670588, 0.866667, 1)
 sky_curve = 0.15529
-ground_bottom_color = Color(0.357118, 0.749961, 1, 1)
-ground_horizon_color = Color(0.377316, 0.649674, 0.998493, 1)
+ground_bottom_color = Color(0.499386, 0.679967, 0.872401, 1)
+ground_horizon_color = Color(0.486275, 0.670588, 0.866667, 1)
 
 [sub_resource type="Sky" id="Sky_avt2k"]
 sky_material = SubResource("ProceduralSkyMaterial_obqn7")
@@ -57,19 +60,24 @@ corner_radius_bottom_left = 5
 [node name="Game" type="Node"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.0669879, 0.997754, 0, -0.997754, 0.0669879, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -0.582109, 0.813111, 0, -0.813111, -0.582109, 0, 0, 0)
 light_color = Color(0.88216, 0.803784, 0.79058, 1)
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_0xoxg")
 
-[node name="coaster" parent="." instance=ExtResource("1_7flm2")]
+[node name="CoasterSpawner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.805877, 0)
+script = ExtResource("1_em4fc")
+coaster_scene = ExtResource("2_uvfj1")
+coaster_colors = Array[Color]([Color(1, 0.48, 0.4, 1), Color(0.4, 0.4, 1, 1), Color(0.4, 1, 0.4, 1), Color(1, 1, 0.4, 1), Color(1, 0.79, 0.4, 1), Color(0.7154, 0.392, 0.98, 1)])
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-1, 8.21506e-08, -2.99003e-08, -9.00006e-09, 0.243463, 0.96991, 8.69583e-08, 0.96991, -0.243463, 0, 12.2235, -12.6535)
+projection = 1
 current = true
+size = 55.099
 script = ExtResource("2_pk533")
 pan_speed = 0.2
 
@@ -87,10 +95,12 @@ skeleton = NodePath("../..")
 
 [node name="TrackManager" type="Node3D" parent="." node_paths=PackedStringArray("cursor_mesh", "camera")]
 script = ExtResource("6_csse8")
-track_normal_straight = ExtResource("5_vv7c7")
+track_normal_straight = ExtResource("5_nx27v")
 track_normal_curved = ExtResource("6_3ipdo")
+track_normal_cross = ExtResource("5_j21ut")
 track_golden_straight = ExtResource("7_6h50n")
 track_golden_curved = ExtResource("8_b07y4")
+track_golden_cross = ExtResource("10_yqw4j")
 cursor_mesh = NodePath("MeshInstance3D")
 camera = NodePath("../Camera3D")
 

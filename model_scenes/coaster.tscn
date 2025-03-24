@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnndf568qm75j"]
+
+[ext_resource type="PackedScene" uid="uid://diiel01barb7y" path="res://models/coaster.fbx" id="1_de7eu"]
+
+[node name="coaster" instance=ExtResource("1_de7eu")]

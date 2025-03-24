@@ -12,9 +12,9 @@ func _input(event):
 	# Scroll to Zoom (Changes Y-axis height)
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			position.y = max(min_zoom, position.y - zoom_speed)
+			size = max(min_zoom, size - zoom_speed)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			position.y = min(max_zoom, position.y + zoom_speed)
+			size = min(max_zoom, size + zoom_speed)
 
 		# Start/Stop Panning with Middle Mouse Button
 		elif event.button_index == MOUSE_BUTTON_MIDDLE:
